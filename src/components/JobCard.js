@@ -8,7 +8,7 @@ import { Chip, Divider, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function JobCard({ job }) {
-  const skillSet = job.skills;
+  const skillSetOf4 = job.skills.slice(0, 4);
   const navigate = useNavigate();
 
   return (
@@ -22,7 +22,7 @@ export default function JobCard({ job }) {
           {job.salaryLow} - {job.salaryHigh} $
         </Typography>
         <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
-          {skillSet.map((skill, index) => (
+          {skillSetOf4.map((skill, index) => (
             <Chip key={index} label={skill} color="secondary" clickable />
           ))}
         </Stack>
