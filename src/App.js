@@ -2,12 +2,19 @@ import React from "react";
 import SearchAppBar from "./components/SearchAppBar.js";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import jobs from "./jobs.json";
-import JobCard from "./components/JobCard.js";
+import HomePage from "./pages/HomePage.js";
+import { Route, Routes } from "react-router-dom";
+import DetailPage from "./pages/DetailPage.js";
 
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    primary: {
+      main: "#ff7043",
+    },
+    secondary: {
+      main: "#26c6da",
+    },
   },
 });
 
@@ -16,9 +23,10 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <SearchAppBar />
-      {jobs.slice(0, 10).map((job) => (
-        <JobCard key={job.id} job={job} />
-      ))}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/job/:id" element={<DetailPage />} />
+      </Routes>
     </ThemeProvider>
   );
 }

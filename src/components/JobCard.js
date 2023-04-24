@@ -1,26 +1,39 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Divider } from "@mui/material";
+import { Chip, Divider, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function JobCard({ job }) {
+  const skillSet = job.skills;
+  const navigate = useNavigate();
+
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card sx={{}}>
       <CardContent>
-        <Typography variant="h5" component="div">
+        <Typography variant="h5" component="div" marginBottom={1}>
           {job.title}
         </Typography>
         <Divider />
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {job.salaryLow} - {job.salaryHigh} $
         </Typography>
-        <Typography variant="body2">{job.description}</Typography>
+        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+          {skillSet.map((skill, index) => (
+            <Chip key={index} label={skill} color="secondary" clickable />
+          ))}
+        </Stack>
+        <Typography variant="body2" marginTop={1}>
+          {job.description}
+        </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions
+        style={{ justifyContent: "center" }}
+        onClick={() => navigate(`/job/${job.id}`)}
+      >
         <Button variant="contained" size="medium">
           Learn More
         </Button>
