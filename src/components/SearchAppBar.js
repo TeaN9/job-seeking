@@ -8,6 +8,10 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { Backdrop, Button } from "@mui/material";
+import LogInForm from "../pages/LogInForm";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -16,10 +20,11 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
+  marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(1),
+    marginLeft: theme.spacing(3),
     width: "auto",
   },
 }));
@@ -52,6 +57,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = (event) => {
+    if (event.target === event.currentTarget) {
+      setAnchorEl(null);
+    }
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    handleMenuClose();
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    handleMenuClose();
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -82,6 +110,32 @@ export default function SearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
+          <Button onClick={handleMenuOpen}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
+              <span style={{ marginLeft: "0.5rem" }}>
+                {isLoggedIn ? "Logout" : "Login"}
+              </span>
+            </div>
+          </Button>
+          <Backdrop
+            sx={{
+              color: "#fff",
+              zIndex: (theme) => theme.zIndex.drawer + 1,
+              bgcolor: "rgba(0, 0, 0, 0.9)",
+            }}
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClick={handleMenuClose}
+          >
+            {isLoggedIn ? (
+              <Button onClick={handleLogout}>Logout</Button>
+            ) : (
+              <Button>
+                <LogInForm onLogin={handleLogin} />
+              </Button>
+            )}
+          </Backdrop>
         </Toolbar>
       </AppBar>
     </Box>
