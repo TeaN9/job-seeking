@@ -7,14 +7,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormProvider, FTextField, FCheckbox } from "../components/form/index";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { LogInStatusContext } from "../App";
-import { useContext } from "react";
-// import { useHistory } from "react-router-dom";
+import { useAuthenticationContext } from "../context/Auth";
+import { appPaths } from "../routes/Route";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup
   .object({
@@ -40,15 +40,20 @@ function SignInPage() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isLoggedIn, setIsLoggedIn } = useContext(LogInStatusContext);
+  const { isLoggedIn, handleLogIn } = useAuthenticationContext();
 
-  // const history = useHistory();
+  const navigate = useNavigate();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setIsLoggedIn(true);
-    // history.go(-1);
+  const onSubmit = (data, event) => {
+    event.preventDefault();
+    handleLogIn(data);
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(appPaths.home);
+    }
+  }, [navigate, isLoggedIn]);
 
   return (
     <div>

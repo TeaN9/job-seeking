@@ -11,9 +11,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
-import { useContext } from "react";
-import { LogInStatusContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import { useAuthenticationContext } from "../context/Auth";
+import { appPaths } from "../routes/Route";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,8 +59,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const { isLoggedIn, handleLogIn } = useContext(LogInStatusContext);
+  const { isLoggedIn, handleLogout } = useAuthenticationContext();
   const navigate = useNavigate();
+
+  const action = isLoggedIn ? handleLogout : () => navigate(appPaths.signIn);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -79,7 +81,7 @@ export default function SearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
             Job Seeking
           </Typography>
@@ -89,14 +91,14 @@ export default function SearchAppBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button onClick={() => navigate("/sign-in")}>
-            <div style={{ display: "flex", alignItems: "center" }}>
+          <Button onClick={action}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
-              <span style={{ marginLeft: "0.5rem" }}>
-                {isLoggedIn ? "Logout" : "Login"}
+              <span style={{ marginLeft: '0.5rem' }}>
+                {isLoggedIn ? 'Logout' : 'Login'}
               </span>
             </div>
           </Button>
