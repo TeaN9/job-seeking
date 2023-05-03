@@ -14,8 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { LogInStatusContext } from "../App";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import HomePage from "./HomePage";
+// import { useHistory } from "react-router-dom";
 
 const schema = yup
   .object({
@@ -43,71 +42,71 @@ function SignInPage() {
 
   const { isLoggedIn, setIsLoggedIn } = useContext(LogInStatusContext);
 
-  const navigate = useNavigate();
+  // const history = useHistory();
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     setIsLoggedIn(true);
-    navigate(<HomePage />);
+    // history.go(-1);
   };
 
-  if (!isLoggedIn)
-    return (
-      <div>
-        <Typography variant="h3" textAlign="center" mb={3}>
-          LOG IN
-        </Typography>
+  return (
+    <div>
+      <Typography variant="h3" textAlign="center" mb={3}>
+        LOG IN
+      </Typography>
 
-        <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={4}>
-            {!!errors.afterSubmit && (
-              <Alert severity="error">{errors.afterSubmit.message}</Alert>
-            )}
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={4}>
+          {!!errors.afterSubmit && (
+            <Alert severity="error">{errors.afterSubmit.message}</Alert>
+          )}
 
-            <FTextField name="username" label="Username" />
-            <FTextField name="email" label="Email address" />
+          <FTextField name="username" label="Username" />
+          <FTextField name="email" label="Email address" />
 
-            <FTextField
-              name="password"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      onMouseDown={(e) => e.preventDefault()}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Stack>
+          <FTextField
+            name="password"
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    onMouseDown={(e) => e.preventDefault()}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Stack>
 
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            sx={{ my: 3 }}
-          >
-            <FCheckbox name="remember" label="Remember me" />
-          </Stack>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ my: 3 }}
+        >
+          <FCheckbox name="remember" label="Remember me" />
+        </Stack>
 
-          <LoadingButton
-            fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
-            Login
-          </LoadingButton>
-        </FormProvider>
-      </div>
-    );
+        <LoadingButton
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          loading={isSubmitting}
+        >
+          Login
+        </LoadingButton>
+      </FormProvider>
+    </div>
+  );
 }
 
 export default SignInPage;

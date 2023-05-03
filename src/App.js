@@ -24,6 +24,7 @@ export const LogInStatusContext = createContext();
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const handleLogIn = () => {};
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -32,6 +33,7 @@ function App() {
         value={{
           isLoggedIn,
           setIsLoggedIn,
+          handleLogIn,
         }}
       >
         <SearchAppBar />

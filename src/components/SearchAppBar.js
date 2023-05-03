@@ -59,30 +59,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const { isLoggedIn } = useContext(LogInStatusContext);
+  const { isLoggedIn, handleLogIn } = useContext(LogInStatusContext);
   const navigate = useNavigate();
-  // const handleMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleMenuClose = (event) => {
-  //   if (event.target === event.currentTarget) {
-  //     setAnchorEl(null);
-  //   }
-  // };
-
-  // const handleLogin = () => {
-  //   // setIsLoggedIn(true);
-  //   handleMenuClose();
-  // };
-
-  // const handleLogout = () => {
-  //   setIsLoggedIn(false);
-  //   handleMenuClose();
-  //   if (!isLoggedIn) {
-  //     navigate(<HomePage />);
-  //   }
-  // };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -114,7 +92,7 @@ export default function SearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Button onClick={() => navigate(`/sign-in`)}>
+          <Button onClick={() => navigate("/sign-in")}>
             <div style={{ display: "flex", alignItems: "center" }}>
               {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
               <span style={{ marginLeft: "0.5rem" }}>
