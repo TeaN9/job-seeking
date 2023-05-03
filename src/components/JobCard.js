@@ -12,7 +12,14 @@ export default function JobCard({ job }) {
   const navigate = useNavigate();
 
   return (
-    <Card sx={{}}>
+    <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
       <CardContent>
         <Typography variant="h5" component="div" marginBottom={1}>
           {job.title}
@@ -26,7 +33,7 @@ export default function JobCard({ job }) {
             <Chip key={index} label={skill} color="secondary" clickable />
           ))}
         </Stack>
-        <Typography variant="body2" marginTop={1}>
+        <Typography variant="body2" marginTop={2}>
           {job.description}
         </Typography>
       </CardContent>

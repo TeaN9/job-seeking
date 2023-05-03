@@ -10,8 +10,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Backdrop, Button } from "@mui/material";
-import LogInForm from "../pages/LogInForm";
+import { Button } from "@mui/material";
+import { useContext } from "react";
+import { LogInStatusContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -57,28 +59,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const { isLoggedIn } = useContext(LogInStatusContext);
+  const navigate = useNavigate();
+  // const handleMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleMenuClose = (event) => {
+  //   if (event.target === event.currentTarget) {
+  //     setAnchorEl(null);
+  //   }
+  // };
 
-  const handleMenuClose = (event) => {
-    if (event.target === event.currentTarget) {
-      setAnchorEl(null);
-    }
-  };
+  // const handleLogin = () => {
+  //   // setIsLoggedIn(true);
+  //   handleMenuClose();
+  // };
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    handleMenuClose();
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    handleMenuClose();
-  };
+  // const handleLogout = () => {
+  //   setIsLoggedIn(false);
+  //   handleMenuClose();
+  //   if (!isLoggedIn) {
+  //     navigate(<HomePage />);
+  //   }
+  // };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -110,7 +114,7 @@ export default function SearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Button onClick={handleMenuOpen}>
+          <Button onClick={() => navigate(`/sign-in`)}>
             <div style={{ display: "flex", alignItems: "center" }}>
               {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
               <span style={{ marginLeft: "0.5rem" }}>
@@ -118,24 +122,6 @@ export default function SearchAppBar() {
               </span>
             </div>
           </Button>
-          <Backdrop
-            sx={{
-              color: "#fff",
-              zIndex: (theme) => theme.zIndex.drawer + 1,
-              bgcolor: "rgba(0, 0, 0, 0.9)",
-            }}
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClick={handleMenuClose}
-          >
-            {isLoggedIn ? (
-              <Button onClick={handleLogout}>Logout</Button>
-            ) : (
-              <Button>
-                <LogInForm onLogin={handleLogin} />
-              </Button>
-            )}
-          </Backdrop>
         </Toolbar>
       </AppBar>
     </Box>
