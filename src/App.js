@@ -3,7 +3,7 @@ import SearchAppBar from "./components/SearchAppBar.js";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { AuthContextProvider } from "./context/Auth.js";
-import AppRoutes from "./routes/Route.js";
+import AppRoutes from "./routes/AppRoutes.js"
 
 const darkTheme = createTheme({
   palette: {

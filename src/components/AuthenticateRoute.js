@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAuthenticationContext } from '../context/Auth';
 import { Navigate } from 'react-router-dom';
-import { appPaths } from '../routes/Route';
+import { appPaths } from '../routes/AppRoutes';
 
 const AuthenticateRoute = ({ children }) => {
   const { isLoggedIn } = useAuthenticationContext();

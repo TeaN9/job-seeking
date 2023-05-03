@@ -13,7 +13,7 @@ import { FormProvider, FTextField, FCheckbox } from "../components/form/index";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useAuthenticationContext } from "../context/Auth";
-import { appPaths } from "../routes/Route";
+import { appPaths } from "../routes/AppRoutes";
 import { useNavigate } from "react-router-dom";
 
 const schema = yup
@@ -46,7 +46,7 @@ function SignInPage() {
 
   const onSubmit = (data, event) => {
     event.preventDefault();
-    handleLogIn(data);
+    handleLogIn(defaultValues);
   };
 
   useEffect(() => {
