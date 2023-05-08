@@ -7,11 +7,23 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormProvider, FTextField, FCheckbox } from "../components/form/index";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useAuthenticationContext } from "../context/Auth";
+import { appPaths } from "../routes/AppRoutes";
+import { useNavigate } from "react-router-dom";
 
-function LogInForm() {
+const schema = yup
+  .object({
+    username: yup.string().required(),
+    email: yup.string().email().required(),
+  })
+  .required();
+
+function SignInPage() {
   const defaultValues = {
     username: "AnthonyBolder",
     email: "Abc@gmail.vn",
@@ -19,20 +31,30 @@ function LogInForm() {
     remember: true,
   };
 
-  const methods = useForm({ defaultValues });
+  const methods = useForm({ defaultValues, resolver: yupResolver(schema) });
 
   const {
-    setError,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = methods;
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // setError("afterSubmit", { message: "Server Response Error" });
+  const { isLoggedIn, handleLogIn } = useAuthenticationContext();
+
+  const navigate = useNavigate();
+
+  const onSubmit = (data, event) => {
+    event.preventDefault();
+    handleLogIn(defaultValues);
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate(appPaths.home);
+    }
+  }, [navigate, isLoggedIn]);
+
   return (
     <div>
       <Typography variant="h3" textAlign="center" mb={3}>
@@ -92,4 +114,4 @@ function LogInForm() {
   );
 }
 
-export default LogInForm;
+export default SignInPage;

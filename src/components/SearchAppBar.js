@@ -10,8 +10,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Backdrop, Button } from "@mui/material";
-import LogInForm from "../pages/LogInForm";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useAuthenticationContext } from "../context/Auth";
+import { appPaths } from "../routes/Route";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -57,28 +59,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const { isLoggedIn, handleLogout } = useAuthenticationContext();
+  const navigate = useNavigate();
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = (event) => {
-    if (event.target === event.currentTarget) {
-      setAnchorEl(null);
-    }
-  };
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    handleMenuClose();
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    handleMenuClose();
-  };
+  const action = isLoggedIn ? handleLogout : () => navigate(appPaths.signIn);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -97,7 +81,7 @@ export default function SearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
             Job Seeking
           </Typography>
@@ -107,35 +91,17 @@ export default function SearchAppBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button onClick={handleMenuOpen}>
-            <div style={{ display: "flex", alignItems: "center" }}>
+          <Button onClick={action}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
-              <span style={{ marginLeft: "0.5rem" }}>
-                {isLoggedIn ? "Logout" : "Login"}
+              <span style={{ marginLeft: '0.5rem' }}>
+                {isLoggedIn ? 'Logout' : 'Login'}
               </span>
             </div>
           </Button>
-          <Backdrop
-            sx={{
-              color: "#fff",
-              zIndex: (theme) => theme.zIndex.drawer + 1,
-              bgcolor: "rgba(0, 0, 0, 0.9)",
-            }}
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClick={handleMenuClose}
-          >
-            {isLoggedIn ? (
-              <Button onClick={handleLogout}>Logout</Button>
-            ) : (
-              <Button>
-                <LogInForm onLogin={handleLogin} />
-              </Button>
-            )}
-          </Backdrop>
         </Toolbar>
       </AppBar>
     </Box>

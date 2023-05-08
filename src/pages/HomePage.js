@@ -18,7 +18,7 @@ function HomePage() {
 
   return (
     <Container>
-      <Grid container spacing={2} sx={{ mt: 1, mb: 3 }}>
+      <Grid container spacing={2} sx={{ mt: 1, mb: 3, alignItems: "stretch" }}>
         {displayedJobs.map((job) => (
           <Grid item key={job.id} xs={12} md={6} lg={4}>
             <JobCard key={job.id} job={job} />

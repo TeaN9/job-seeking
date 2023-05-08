@@ -2,9 +2,8 @@ import React from "react";
 import SearchAppBar from "./components/SearchAppBar.js";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import HomePage from "./pages/HomePage.js";
-import { Route, Routes } from "react-router-dom";
-import DetailPage from "./pages/DetailPage.js";
+import { AuthContextProvider } from "./context/Auth.js";
+import AppRoutes from "./routes/AppRoutes.js"
 
 const darkTheme = createTheme({
   palette: {
@@ -22,11 +21,12 @@ function App() {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <SearchAppBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/job/:id" element={<DetailPage />} />
-      </Routes>
+      <AuthContextProvider>
+        <>
+          <SearchAppBar />
+          <AppRoutes />
+        </>
+      </AuthContextProvider>
     </ThemeProvider>
   );
 }
