@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const NotFound = () => {
   return (
-    <div>Not Founded - 404</div>
-  )
-}
+    <div style={{ fontSize: "24px", textAlign: "center" }}>
+      Not Founded - 404
+    </div>
+  );
+};
 
-export default NotFound
+export default NotFound;

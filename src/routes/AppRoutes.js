@@ -12,9 +12,25 @@ const AppRoutes = () => {
   const background = location.state && location.state.background;
   return (
     <>
-      <Routes location={background || location}>
-        <Route path={appPaths.home} element={<HomePage />} />
-
+      <Routes>
+        <Route
+          path={appPaths.home}
+          element={<HomePage />}
+          location={background || location}
+        >
+          <Route path={appPaths.signIn} element={<SignInPage />} />
+          <Route
+            path={appPaths.jobDetail}
+            element={
+              <AuthenticateRoute>
+                <DetailPage />
+              </AuthenticateRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+      {background && (
         <Route
           path={appPaths.jobDetail}
           element={
@@ -23,14 +39,6 @@ const AppRoutes = () => {
             </AuthenticateRoute>
           }
         />
-        <Route path={appPaths.signIn} element={<SignInPage />} />
-
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      {background && (
-        <Routes>
-          <Route path={appPaths.home} element={<HomePage />} />
-        </Routes>
       )}
     </>
   );

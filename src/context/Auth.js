@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState, useContext } from 'react';
+import { createContext, useState, useContext } from "react";
 
 export const LogInStatusContext = createContext();
 
@@ -7,33 +7,34 @@ export const useAuthenticationContext = () => {
 
   if (!context) {
     throw new Error(
-      'useAuthenticationContext should be wrapped AuthContextProvider'
+      "useAuthenticationContext should be wrapped AuthContextProvider"
     );
   }
 
   return context;
-}
+};
 
 export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
-  const handleLogIn = useCallback(data => {
+  const handleLogIn = (data) => {
     setUser(data);
     setIsLoggedIn(true);
-  }, []);
+  };
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = () => {
     setUser(null);
     setIsLoggedIn(false);
-  }, []);
+  };
+
   return (
     <LogInStatusContext.Provider
       value={{
         isLoggedIn,
         user,
         handleLogIn,
-        handleLogout
+        handleLogout,
       }}
     >
       {children}
