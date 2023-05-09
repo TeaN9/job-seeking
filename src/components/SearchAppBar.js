@@ -8,13 +8,6 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useAuthenticationContext } from "../context/Auth";
-import { appPaths } from "../Constant";
-import { AccountCircle } from "@mui/icons-material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -60,11 +53,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const { isLoggedIn, handleLogout, user } = useAuthenticationContext();
-  const navigate = useNavigate();
-
-  const action = isLoggedIn ? handleLogout : () => navigate(appPaths.signIn);
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -95,28 +83,6 @@ export default function SearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          {isLoggedIn && (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Typography mx={1}>{user?.username}</Typography>
-            </div>
-          )}
-          <Button onClick={action}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
-              <span style={{ marginLeft: "0.5rem" }}>
-                {isLoggedIn ? "Logout" : "Login"}
-              </span>
-            </div>
-          </Button>
         </Toolbar>
       </AppBar>
     </Box>

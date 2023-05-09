@@ -20,18 +20,18 @@ function DetailPage() {
   const jobId = params.id;
   const job = jobs.find((job) => job.id === jobId);
 
-  const skillSet = job.skills;
-  const formattedDate = format(new Date(job.postedDate), "MMM-do, yyyy");
-
   if (!job)
     return (
-      <Typography variant="h3" marginTop={3}>
+      <Typography variant="h3" textAlign="center" mt={3}>
         No job matched
       </Typography>
     );
 
+  const skillSet = job.skills;
+  const formattedDate = format(new Date(job.postedDate), "MMM-do, yyyy");
+
   return (
-    <Container sx={{ width: 900 }}>
+    <Container sx={{ maxWidth: "800px" }}>
       <Typography variant="h3" marginTop={3}>
         {job.title}
       </Typography>
