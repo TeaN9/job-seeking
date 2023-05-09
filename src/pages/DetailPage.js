@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import ScienceIcon from "@mui/icons-material/Science";
 import WalletIcon from "@mui/icons-material/Wallet";
+import { format } from "date-fns";
 
 function DetailPage() {
   const params = useParams();
@@ -20,11 +21,7 @@ function DetailPage() {
   const job = jobs.find((job) => job.id === jobId);
 
   const skillSet = job.skills;
-
-  const DateOptions = { year: "numeric", month: "long", day: "numeric" };
-  const dateTimeNewFormat = new Intl.DateTimeFormat("en-US", DateOptions);
-  const DDate = new Date(job.postedDate);
-  const formattedDate = dateTimeNewFormat.format(DDate);
+  const formattedDate = format(new Date(job.postedDate), "MMM-do, yyyy");
 
   if (!job)
     return (

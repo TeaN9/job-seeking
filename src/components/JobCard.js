@@ -11,6 +11,10 @@ export default function JobCard({ job }) {
   const skillSetOf4 = job.skills.slice(0, 4);
   const navigate = useNavigate();
 
+  const handleJobClick = (e) => {
+    navigate(`/job/${job.id}`);
+  };
+
   return (
     <Card
       sx={{
@@ -39,7 +43,7 @@ export default function JobCard({ job }) {
       </CardContent>
       <CardActions
         style={{ justifyContent: "center" }}
-        onClick={() => navigate(`/job/${job.id}`)}
+        onClick={handleJobClick}
       >
         <Button variant="contained" size="medium">
           Learn More

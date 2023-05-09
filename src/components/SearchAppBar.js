@@ -13,7 +13,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticationContext } from "../context/Auth";
-import { appPaths } from "../routes/Route";
+import { appPaths } from "../Constant";
+import { AccountCircle } from "@mui/icons-material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -59,7 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
-  const { isLoggedIn, handleLogout } = useAuthenticationContext();
+  const { isLoggedIn, handleLogout, user } = useAuthenticationContext();
   const navigate = useNavigate();
 
   const action = isLoggedIn ? handleLogout : () => navigate(appPaths.signIn);
@@ -81,7 +82,7 @@ export default function SearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
             Job Seeking
           </Typography>
@@ -91,14 +92,28 @@ export default function SearchAppBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{ "aria-label": "search" }}
             />
           </Search>
+          {isLoggedIn && (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Typography mx={1}>{user?.username}</Typography>
+            </div>
+          )}
           <Button onClick={action}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
-              <span style={{ marginLeft: '0.5rem' }}>
-                {isLoggedIn ? 'Logout' : 'Login'}
+              <span style={{ marginLeft: "0.5rem" }}>
+                {isLoggedIn ? "Logout" : "Login"}
               </span>
             </div>
           </Button>

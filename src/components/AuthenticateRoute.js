@@ -1,28 +1,33 @@
-import React from 'react'
-import { useAuthenticationContext } from '../context/Auth';
-import { Navigate } from 'react-router-dom';
-import { appPaths } from '../routes/AppRoutes';
+import React from "react";
+import { useAuthenticationContext } from "../context/Auth";
+import { Navigate, useLocation } from "react-router-dom";
+import { appPaths } from "../Constant";
 
-const AuthenticateRoute = ({ children }) => {
+export const AuthenticateRoute = ({ children }) => {
   const { isLoggedIn } = useAuthenticationContext();
-
+  const location = useLocation();
   if (!isLoggedIn) {
-    return <Navigate to={appPaths.signIn} />;
+    return (
+      <Navigate
+        to={appPaths.signIn}
+        state={{ from: location.pathname }}
+        replace
+      />
+    );
   }
 
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
 
-export const withAuthentication = (Component) => {
-  return (props) => {
-    const { isLoggedIn } = useAuthenticationContext();
+// High Order Component
+// export const withAuthentication = (Component) => {
+//   return (props) => {
+//     const { isLoggedIn } = useAuthenticationContext();
 
-    if (!isLoggedIn) {
-      return <Navigate to={appPaths.signIn} />;
-    }
+//     if (!isLoggedIn) {
+//       return <Navigate to={appPaths.signIn} />;
+//     }
 
-    return <Component {...props} />
-  }
-}
-
-export default AuthenticateRoute
+//     return <Component {...props} />;
+//   };
+// };
